@@ -1060,4 +1060,5 @@ const Engine = (function () {
 
   return { createGame, W, H, N, WATER, LAND, BRIDGE, RACKETS, BUILDINGS, SPECS, TICK };
 })();
+if (typeof window !== 'undefined') window.Engine = Engine;
 if (typeof module !== 'undefined') module.exports = Engine;

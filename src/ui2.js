@@ -1,7 +1,8 @@
 /* Omertà — The Climb. UI. */
 (function () {
 'use strict';
-const E1 = window.Engine, E = window.Engine2;
+const E1 = (typeof window !== 'undefined' && window.Engine) || (typeof Engine !== 'undefined' ? Engine : null);
+const E = (typeof window !== 'undefined' && window.Engine2) || (typeof Engine2 !== 'undefined' ? Engine2 : null);
 const $ = id => document.getElementById(id);
 const COLORS = ['#b4332a', '#2f6fbf', '#2e8a5b', '#c47a12', '#6a3fa0', '#c45a1a', '#d8d4cc', '#3a8a8a'];
 const RANKS = { soldier: 'Soldier', capo: 'Capo', underboss: 'Underboss', consigliere: 'Consigliere', don: 'Don' };
@@ -36,7 +37,7 @@ function buildBackdrop(seed) {
   }
   // district borders
   for (let y = 1; y < H - 1; y++) for (let x = 1; x < W - 1; x++) {
-    const i = mapG.idx(x, y);
+    const i = y * E1.W + x;
     if (mapG.terrain[i] !== E1.LAND) continue;
     const dn = mapG.district[i];
     if (mapG.district[i + 1] !== dn || mapG.district[i + E1.W] !== dn) {
@@ -364,23 +365,38 @@ function startScreen() {
   sw.onclick = e => { const i = e.target.closest('i'); if (!i) return; chosen = i.dataset.c; startScreen(); };
   $('diffSeg').onclick = e => { const b = e.target.closest('button'); if (!b) return; diff = b.dataset.d; [...$('diffSeg').children].forEach(x => x.classList.toggle('on', x === b)); };
 }
+function startError(err) {
+  console.error(err);
+  let note = $('startErr');
+  if (!note) {
+    note = document.createElement('div');
+    note.id = 'startErr';
+    note.style.cssText = 'color:#c45b4a;margin-top:12px;font-size:14px;';
+    ($('startbox') || $('overlay')).appendChild(note);
+  }
+  note.textContent = 'Could not start: ' + (err && err.message ? err.message : err);
+}
 $('bStart').addEventListener('click', () => {
-  const seed = Date.now() % 1e9;
-  const mapRackets = buildBackdrop(seed);
-  G = E.createGame({
-    seed, difficulty: diff, mapRackets,
-    playerName: $('inName').value.trim() || 'Russo',
-    firstName: $('inFirst').value.trim() || 'Sonny',
-    playerColor: chosen,
-  });
-  $('overlay').style.display = 'none';
-  fit();
-  const home = E.DID[G.startDistrict];
-  const p = screen(home.x, home.y);
-  cam.z = 5;
-  cam.x = cvs.width / 2 - home.x * cam.z;
-  cam.y = cvs.height / 2 - home.y * cam.z;
-  refresh();
+  try {
+    if (!E1 || !E) throw new Error('The game scripts did not load. Reload the page.');
+    const seed = Date.now() % 1e9;
+    const mapRackets = buildBackdrop(seed);
+    if (!mapRackets.length) throw new Error('The city map came out empty.');
+    G = E.createGame({
+      seed, difficulty: diff, mapRackets,
+      playerName: $('inName').value.trim() || 'Russo',
+      firstName: $('inFirst').value.trim() || 'Sonny',
+      playerColor: chosen,
+    });
+    const home = E.DID[G.startDistrict];
+    if (!home) throw new Error('No starting neighbourhood.');
+    fit();
+    cam.z = 5;
+    cam.x = cvs.width / 2 - home.x * cam.z;
+    cam.y = cvs.height / 2 - home.y * cam.z;
+    refresh();
+    $('overlay').style.display = 'none';
+  } catch (err) { startError(err); }
 });
 window.addEventListener('resize', () => { if (G) { fit(); draw(); } });
 

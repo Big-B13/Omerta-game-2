@@ -828,7 +828,7 @@ function createGame(opts) {
   return G;
 }
 
-const api = { createGame, DIST, RACKETS, BUILDINGS, SPECS, ROLES, RINGS, fight };
+const api = { createGame, DIST, DID, RACKETS, BUILDINGS, SPECS, ROLES, RINGS, fight };
 if (typeof module !== 'undefined' && module.exports) module.exports = api;
 root.Engine2 = api;
 })(typeof window !== 'undefined' ? window : globalThis);
