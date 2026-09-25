@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Omertà — The Climb</title>
+<style>/*CSS*/</style>
+</head>
+<body>
+<div id="app">
+  <div id="top">
+    <div class="brand"><b>OMERTÀ</b><small id="brandSub">THE CLIMB · 1955</small></div>
+    <div class="stat"><div class="k">WEEK</div><div class="v" id="sWeek">1</div></div>
+    <div class="stat"><div class="k">CASH</div><div class="v" id="sCash">$0</div></div>
+    <div class="stat"><div class="k">INCOME</div><div class="v" id="sIncome">$0<small>/wk</small></div></div>
+    <div class="stat"><div class="k">SOLDIERS</div><div class="v" id="sSol">0<small> / 0</small></div></div>
+    <div class="stat"><div class="k">HEAT</div><div class="v"><span id="heatbar"><i style="width:0"></i></span> <span id="sHeat">0</span></div></div>
+    <div class="stat"><div class="k">YOUR RANK</div><div class="v" id="sRank">Soldier</div></div>
+    <div class="stat"><div class="k">MOVES</div><div class="v" id="sMoves">2</div></div>
+    <div class="spacer"></div>
+    <button id="bEnd" class="primary">END WEEK ▶</button>
+    <button id="bHelp">?</button>
+  </div>
+  <div id="left"></div>
+  <div id="mapwrap"><canvas id="map"></canvas><div id="tooltip"></div></div>
+  <div id="right"></div>
+  <div id="bottom">
+    <h3>THE DAILY LEDGER</h3>
+    <div class="dateline" id="dateline">LATE CITY EDITION</div>
+    <div id="newsList"></div>
+  </div>
+</div>
+<div id="toast"></div>
+<div id="overlay">
+  <div class="box" id="startbox">
+    <h1>OMERTÀ</h1>
+    <div class="sub">THE CLIMB · NEW YORK · 1955</div>
+    <p class="how">Six families own this city, and one of them owns Havana. You are nobody: a soldier running a racket for a capo who calls you "kid". Take rackets, recruit made men, and climb the family tree until the chair at the head of the table is yours.</p>
+    <label>FAMILY NAME</label>
+    <input id="inName" type="text" value="Russo" maxlength="16">
+    <label>YOUR NAME</label>
+    <input id="inFirst" type="text" value="Sonny" maxlength="16">
+    <label>FAMILY COLOUR</label>
+    <div class="swatches" id="swatches"></div>
+    <label>DIFFICULTY</label>
+    <div class="seg" id="diffSeg">
+      <button data-d="soldato">Soldato</button>
+      <button data-d="capo" class="on">Capo</button>
+      <button data-d="don">Don</button>
+    </div>
+    <button class="go" id="bStart">BEGIN YOUR CLIMB</button>
+    <div class="how" style="margin-top:14px">
+      <b>Each week</b> you get two moves (three once you are Don). Muscle in on rackets, build, recruit and scheme, then end the week: cash comes in, and the other families make their moves.<br>
+      <b>Take a racket:</b> click it on the map. Empty ones are cheap; a family's racket means a fight, and fights cost soldiers.<br>
+      <b>The climb:</b> Soldier → Capo → Underboss → Don. Each step needs more rackets, more cash, more respect.<br>
+      <b>Win:</b> become the Don, then take 60% of the city's rackets or finish every rival family. Lose the crew's loyalty and you're back to nothing.
+    </div>
+  </div>
+</div>
+<script>/*ENGINE*/</script>
+<script>/*ENGINE2*/</script>
+<script>/*UI*/</script>
+</body>
+</html>
